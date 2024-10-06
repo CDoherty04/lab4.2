@@ -51,6 +51,12 @@ int main()
         return 1;
     }
 
+    // if a Kelvin value was inputted it should be positive
+    if (temperature < 0 && input_scale == 3) {
+        printf("Kelvin values should be positive.\n");
+        return 1;
+    }
+
     // Choose the conversion target scale
     printf("Convert to (1) Celsius, (2) Fahrenheit, (3) Kelvin: ");
     if (scanf("%d", &target_scale) != 1 || !is_valid_choice(target_scale))
