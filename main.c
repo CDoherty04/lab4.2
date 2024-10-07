@@ -45,9 +45,34 @@ void categorize_temperature(float celsius) {
     }
 }
 
-// Meant for scale choice input
-int is_valid_choice(int choice) {
-    return choice >= 1 && choice <= 3;
+// Function to get a valid temperature input from the user
+float get_valid_temperature() {
+    float temperature;
+    while (1) {
+        printf("Enter the temperature: ");
+        if (scanf("%f", &temperature) == 1) {
+            return temperature;
+        } else {
+            printf("Invalid temperature value. Please enter a valid number.\n");
+            // Clear the input buffer to avoid an infinite loop
+            while (getchar() != '\n');
+        }
+    }
+}
+
+// Function to get a valid scale choice from the user
+int get_valid_choice(const char* prompt) {
+    int choice;
+    while (1) {
+        printf("%s", prompt);
+        if (scanf("%d", &choice) == 1 && choice >= 1 && choice <= 3) {
+            return choice;
+        } else {
+            printf("Invalid choice. Please enter 1, 2, or 3.\n");
+            // Clear the input buffer to avoid an infinite loop
+            while (getchar() != '\n');
+        }
+    }
 }
 
 int main()
@@ -55,33 +80,14 @@ int main()
     float temperature, converted_temp;
     int input_scale, target_scale;
 
-    // Input the temperature value
-    printf("Enter the temperature: ");
-    if (scanf("%f", &temperature) != 1)
-    {
-        printf("Invalid temperature value.\n");
-        return 1;
-    }
-
-    // Choose the input scale
-    printf("Choose the current scale (1) Celsius, (2) Fahrenheit, (3) Kelvin: ");
-    if (scanf("%d", &input_scale) != 1 || !is_valid_choice(input_scale))
-    {
-        printf("Invalid choice for the input scale.\n");
-        return 1;
-    }
+    // Get valid inputs for the temperature, input scale, and target scale
+    temperature = get_valid_temperature();
+    input_scale = get_valid_choice("Choose the input scale: (1) Celsius, (2) Fahrenheit, (3) Kelvin: ");
+    target_scale = get_valid_choice("Convert to: (1) Celsius, (2) Fahrenheit, (3) Kelvin: ");
 
     // if a Kelvin value was inputted it should be positive
     if (temperature < 0 && input_scale == 3) {
         printf("Kelvin values should be positive.\n");
-        return 1;
-    }
-
-    // Choose the conversion target scale
-    printf("Convert to (1) Celsius, (2) Fahrenheit, (3) Kelvin: ");
-    if (scanf("%d", &target_scale) != 1 || !is_valid_choice(target_scale))
-    {
-        printf("Invalid choice for the target scale.\n");
         return 1;
     }
     
