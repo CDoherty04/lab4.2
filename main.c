@@ -25,6 +25,26 @@ float kelvin_to_fahrenheit(float kelvin) {
     return celsius_to_fahrenheit(kelvin_to_celsius(kelvin));
 }
 
+// Categorization function
+void categorize_temperature(float celsius) {
+    if (celsius < 0) {
+        printf("Temperature category: Freezing\n");
+        printf("Weather advisory: Stay warm, it's freezing outside.\n");
+    } else if (celsius >= 0 && celsius < 10) {
+        printf("Temperature category: Cold\n");
+        printf("Weather advisory: Wear a jacket.\n");
+    } else if (celsius >= 10 && celsius < 25) {
+        printf("Temperature category: Comfortable\n");
+        printf("Weather advisory: You should feel comfortable.\n");
+    } else if (celsius >= 25 && celsius < 35) {
+        printf("Temperature category: Hot\n");
+        printf("Weather advisory: Stay hydrated.\n");
+    } else {
+        printf("Temperature category: Extreme Heat\n");
+        printf("Weather advisory: Stay indoors, it's extremely hot.\n");
+    }
+}
+
 // Meant for scale choice input
 int is_valid_choice(int choice) {
     return choice >= 1 && choice <= 3;
@@ -86,7 +106,17 @@ int main()
     // Convert int scale to String representation
     char *scale_names[] = {"Celsius", "Fahrenheit", "Kelvin"};
 
-    printf("%f in %s is %f in %s", temperature, scale_names[input_scale - 1], converted_temp, scale_names[target_scale - 1]);
+    // Categorize the temperature based on Celsius value
+    float temp_in_celsius = temperature;
+    if (input_scale == 2) {
+        temp_in_celsius = fahrenheit_to_celsius(temperature);
+    } else if (input_scale == 3) {
+        temp_in_celsius = kelvin_to_celsius(temperature);
+    }
 
+    printf("\nConverted temperature: %.2f %s\n", converted_temp, scale_names[target_scale - 1]);
+    categorize_temperature(temp_in_celsius);
+
+    printf("\n");
     return 1;
 }
